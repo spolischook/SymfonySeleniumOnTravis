@@ -1,0 +1,28 @@
+default: &default
+    suites:
+        default:
+            paths:    [ %paths.base%/src/AppBundle/Tests/Behat/features ]
+            contexts:
+                - AppBundle\Tests\Behat\Context\ProjectContext
+    extensions:
+        Behat\MinkExtension:
+            sessions:
+                default:
+                    selenium2:
+                        browser: firefox
+            base_url: 'http://127.0.0.1:8000/app_dev.php'
+        Behat\Symfony2Extension:
+            kernel:
+                env: test
+                debug: true
+                path: app/AppKernel.php
+                bootstrap: app/bootstrap.php
+        SensioLabs\Behat\PageObjectExtension:
+            namespaces:
+                page: AppBundle\Tests\Behat\Context\Page
+                element: AppBundle\Tests\Behat\Context\Page\Element
+travis:
+    <<: *default
+    extensions:
+        Behat\MinkExtension:
+            base_url: 'http://127.0.0.1:8080/app.php/'
